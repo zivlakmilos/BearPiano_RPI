@@ -5,17 +5,22 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 include(FindPkgConfig)
 
+find_library(AUDIO_LIBRARY zaudio PATH /usr/local/lib/)
+
+if(NOT AUDIO_LIBRARY)
+    message(FATAL_ERROR "ERROR: Can't find zaudio audio library")
+endif()
+
 include_directories(
     include/
 )
 
 set(SOURCES
-    src/sdl/audioplayersdl.cpp
+    src/bluetooth.cpp
 )
 
 set(LIBRARIES
-    ${SDL2_LIBRARIES}
-    ${SDL2MIXER_LIBRARIES}
+    ${AUDIO_LIBRARY}
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES} src/main.cpp)
